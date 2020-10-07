@@ -1,0 +1,15 @@
+demo.hello:
+    path: '/hello'
+    defaults:
+        _controller: '\Drupal\demo\Controller\DemoController::hello'
+        _title: 'Route Hello'
+    requirements:
+        _permission: 'access content'
+
+demo.helloSymfony:
+    path: '/hello-symfony'
+    defaults:
+        _controller: '\Drupal\demo\Controller\DemoController::helloSymfony'
+    requirements:
+        _permission: 'access content'
+
