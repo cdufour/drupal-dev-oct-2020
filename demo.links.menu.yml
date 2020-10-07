@@ -1,0 +1,6 @@
+demo.hello:
+    title: 'Hello'
+    description: 'Page de salutation'
+    route_name: demo.hello
+    menu_name: main
+    weight: 1

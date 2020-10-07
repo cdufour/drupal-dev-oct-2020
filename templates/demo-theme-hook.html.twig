@@ -1,0 +1,16 @@
+<h1>Template perso</h1>
+
+<p>{{ variable1 }}</p>
+
+<div class="student-list">
+    <ul>
+    {% for student in students %}
+        {% if student.points > 10 %}
+            <li class="student-item">
+                <span>{{ student.name }}</span>
+                <span> ({{ student.points }})</span>
+            </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>

@@ -13,3 +13,18 @@ demo.helloSymfony:
     requirements:
         _permission: 'access content'
 
+demo.helloBis:
+    path: '/hello-bis/{salutation}'
+    defaults:
+        _controller: '\Drupal\demo\Controller\DemoController::helloBis'
+    requirements:
+        _permission: 'access content'
+        salutation: '[a-z]+'
+
+demo.square:
+    path: '/square/{width}/{color}'
+    defaults:
+        _controller: '\Drupal\demo\Controller\DemoController::square'
+    requirements:
+        _permission: 'access content'
+        color: '[0-F]{6}'

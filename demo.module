@@ -1,0 +1,17 @@
+<?php
+
+// implements hook_theme()
+function demo_theme($existing, $type, $theme, $path)
+{
+    return [
+        'demo_theme_hook' => [
+            'render element' => 'children',
+            'template' => 'demo-theme-hook',
+            'path' => $path . '/templates',
+            'variables' => [
+                'variable1' => '',
+                'students' => []
+            ]
+        ]
+    ];
+}
