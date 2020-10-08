@@ -17,6 +17,7 @@ class DemoController extends ControllerBase
 
     public function hello()
     {
+        \Drupal::state()->set('demo.squareTxt', 'Simple carré');
         //$salutation = 'Coucou';
 
         // instanciation ad hoc de DemoService
@@ -58,6 +59,9 @@ class DemoController extends ControllerBase
 
     public function helloSymfony()
     {
+        // suppession de la clé demo.squareVisits dans le state
+        \Drupal::state()->delete('demo.squareVisits');
+
         $student = [
             'firstname' => 'Kevin',
             'lastname' => 'Bataille',
@@ -94,7 +98,19 @@ class DemoController extends ControllerBase
             return $res;
         }
 
-        $sq = '<div style="height:'.$width.'px;width:'.$width.'px;background-color:#'.$color.'"></div>';
+        $sqText = \Drupal::state()->get('demo.squareTxt');
+
+        $visits = \Drupal::state()->get('demo.squareVisits');
+        if (!$visits) {
+            $visits = 1;
+            \Drupal::state()->set('demo.squareVisits', $visits);
+        } else {
+            \Drupal::state()->set('demo.squareVisits', $visits += 1);
+        }
+
+        $sqText .= ' ('.$visits .')'; // concaténation incluant le nombre de visites
+        
+        $sq = '<div style="height:'.$width.'px;width:'.$width.'px;background-color:#'.$color.'">'.$sqText.'</div>';
         $res->setContent($sq);
         return $res;
     }
