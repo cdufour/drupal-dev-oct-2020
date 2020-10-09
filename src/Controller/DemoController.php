@@ -141,10 +141,93 @@ class DemoController extends ControllerBase
 
     public function testNode()
     {
-        // $data = [
-        //     'type' => 'article',
-        //     'title' => 'Lorem ipsum'
+        $nids = $this->queryNode();
+
+        // $items = $this->readNodes($nids);
+        // return [
+        //     '#theme' => 'item_list',
+        //     '#items' => $items
         // ];
+
+        // exemple de mise à jour d'un article
+        //$this->updateNode();
+
+        // exemple de suppression d'un article
+        $this->deleteNode();
+        
+
+        $arrNids = [];
+        foreach ($nids as $nid) {
+            array_push($arrNids, intval($nid));
+        }
+        //var_dump($arrNids);
+
+        return new Response($this->readNode($arrNids[0]));
+    }
+
+
+    private function deleteNode()
+    {
+        \Drupal::entityManager()->getStorage('node')->load(10)->delete();
+    } 
+
+    private function updateNode()
+    {
+        $node = \Drupal::entityManager()->getStorage('node')->load(10);
+        $node->set('title', 'Article nauséabond');
+        $node->set('body', 'Corps modifié');
+        $node->setPublished(false);
+        $node->save();
+    }
+
+    // Pour plus d'exemples:
+    // https://kgaut.net/blog/2017/drupal-8-les-entityquery-par-lexemple.html
+    private function queryNode()
+    {
+        // renvoie un objet permettant d'effecttuer des requêtes
+        // multicritère sur l'entité ciblée (ici, node)
+        $query = \Drupal::entityManager()->getStorage('node')->getQuery();
+        $query
+            ->condition('type', 'article')
+            ->condition('status', true)
+            ;
+        return $query->execute(); // renvoie des identifiants de node
+    }
+
+    private function readNode($nid)
+    {
+        // chargement d'un seul node
+        // load() renvoie un objet de type NodeInterface
+        $node = \Drupal::entityManager()->getStorage('node')->load($nid);
+        //$article_title = $node->get('title')->getValue();
+        $article_title = $node->getTitle();
+ 
+        // retourne au client le titre de l'article
+        return $article_title;
+    }
+
+    private function readNodes($nids)
+    {
+        // création d'une collection de NodeInterface à partir
+        // d'un tableau associatif d'identifiants de node
+        $nodes = \Drupal::entityManager()->getStorage('node')->loadMultiple($nids);
+        
+        $items = [];
+        foreach ($nodes as $node) {
+            //echo '<p>'.$node->getTitle().'</p>';
+            //if ($node->isPublished()) echo 'Node published !!!';
+            $item = array(
+                'title' => $node->getTitle(),
+                'isPublished' => $node->isPublished()
+            );
+            array_push($items, $node->getTitle());
+        }
+        return $items;
+    }
+
+    // crée 3 articles unpublished
+    private function createArticles()
+    {
         $articles = [
             array('type' => 'article', 'title' => 'Super article', 'status' => 0),
             array('type' => 'article', 'title' => 'Très bon article', 'status' => 0),
@@ -154,8 +237,7 @@ class DemoController extends ControllerBase
         foreach ($articles as $article) {
             $this->createNode($article);
         }
-
-        return new Response(sizeof($articles) . ' articles created');
+        //return new Response(sizeof($articles) . ' articles created');
     }
 
     private function createNode($data)
