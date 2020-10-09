@@ -20,6 +20,9 @@ class DemoBlock extends BlockBase
         $extra = $this->getConfiguration()['enabled'] 
             ? '(Extra ON)' 
             : '(Extra OFF)';
+        
+        $extra .= '---' . \Drupal::state()->get('demo.phone');
+
         return ['#markup' => '<strong>block demo '.$extra.'</strong>'];
     }
 

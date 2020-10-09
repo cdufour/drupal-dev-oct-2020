@@ -4,3 +4,11 @@ demo.hello:
     route_name: demo.hello
     menu_name: main
     weight: 1
+
+demo.config_square:
+    title: 'Config square'
+    description: 'Gère le message interne au carré'
+    route_name: demo.config_form
+    # ancrage du lien dans la zone cible
+    parent: system.admin_config_development
+    

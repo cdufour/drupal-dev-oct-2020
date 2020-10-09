@@ -1,0 +1,12 @@
+# configuration d'une tâche (onglet)
+# on associe deux tâches (onglets)
+# à la même route de base
+demo.page:
+    route_name: demo.hello
+    title: 'Hello tab'
+    base_route: demo.hello
+
+demo.config:
+    route_name: demo.form
+    title: 'Config tab'
+    base_route: demo.hello

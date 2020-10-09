@@ -29,9 +29,32 @@ demo.square:
         _permission: 'access content'
         color: '[0-F]{6}'
 
+# route accédant directement au rendu du formulaire
 demo.form:
     path: '/form'
     defaults:
         _form: '\Drupal\demo\Form\DemoForm'
     requirements:
         _permission: 'access content'
+
+# route passant par un controleur pour accéder au formulaire
+demo.form2:
+    path: '/form2'
+    defaults:
+        _controller: '\Drupal\demo\Controller\DemoController::generateForm'
+    requirements:
+        _permission: 'access content'
+
+demo.config_form:
+    path: '/admin/config/square-config'
+    defaults:
+        _form: '\Drupal\demo\Form\DemoConfigForm'
+    requirements:
+        _permission: 'administer site configuration'
+
+demo.node_test:
+    path: '/node-test'
+    defaults:
+        _controller: '\Drupal\demo\Controller\DemoController::testNode'
+    requirements:
+        _permission: 'administer site configuration'

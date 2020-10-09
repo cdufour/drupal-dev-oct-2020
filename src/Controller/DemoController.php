@@ -110,8 +110,57 @@ class DemoController extends ControllerBase
 
         $sqText .= ' ('.$visits .')'; // concaténation incluant le nombre de visites
         
-        $sq = '<div style="height:'.$width.'px;width:'.$width.'px;background-color:#'.$color.'">'.$sqText.'</div>';
+        // accès directe à une configuration
+        $message = $this->config('demo.square_message')
+            ->get('message');
+
+        $sq = '<div style="height:'.$width.'px;width:'.$width.'px;background-color:#'.$color.'">'.$message.'</div>';
         $res->setContent($sq);
         return $res;
+    }
+
+    public function generateForm()
+    {
+        // getForm() retourne le formulaire construit par buildForm
+        $form = \Drupal::formBuilder()->getForm('\Drupal\demo\Form\DemoForm');
+        
+        $build = array();
+
+        $build['enabled'] = array(
+            '#type' => 'checkbox',
+            '#title' => 'Activer'
+        );
+
+        $build['forms'] = array(
+            'form1' => $form,
+            'form2' => $form
+        );
+
+        return $build;
+    }
+
+    public function testNode()
+    {
+        // $data = [
+        //     'type' => 'article',
+        //     'title' => 'Lorem ipsum'
+        // ];
+        $articles = [
+            array('type' => 'article', 'title' => 'Super article', 'status' => 0),
+            array('type' => 'article', 'title' => 'Très bon article', 'status' => 0),
+            array('type' => 'article', 'title' => 'Mauvais article', 'status' => 0)
+        ];
+
+        foreach ($articles as $article) {
+            $this->createNode($article);
+        }
+
+        return new Response(sizeof($articles) . ' articles created');
+    }
+
+    private function createNode($data)
+    {
+        $node = \Drupal::entityManager()->getStorage('node')->create($data);
+        $node->save();
     }
 }
