@@ -58,3 +58,17 @@ demo.node_test:
         _controller: '\Drupal\demo\Controller\DemoController::testNode'
     requirements:
         _permission: 'administer site configuration'
+
+demo.test_js:
+    path: '/test-js'
+    defaults:
+        _controller: '\Drupal\demo\Controller\JsController::testJs'
+    requirements:
+        _permission: 'access content'
+
+demo.test_jquery:
+    path: '/test-jquery'
+    defaults:
+        _controller: '\Drupal\demo\Controller\JsController::testJquery'
+    requirements:
+        _permission: 'access content'

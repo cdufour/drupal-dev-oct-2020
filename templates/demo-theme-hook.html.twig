@@ -1,6 +1,7 @@
 <h1>Template perso</h1>
 
-<p>{{ variable1 }}</p>
+<p id="log">{{ variable1 }}</p>
+<button id="btnTest">Test JS</button>
 
 <div class="student-list">
     <ul>
@@ -14,3 +15,26 @@
     {% endfor %}
     </ul>
 </div>
+
+<script>
+
+(function () {
+    console.log('JS OK');
+    var log = document.getElementById('log');
+    var btnTest = document.getElementById('btnTest');
+    var api = 'https://jsonplaceholder.typicode.com/todos';
+    //log.innerText = 'Texte provenant de JS';
+
+    btnTest.addEventListener('click', function() {
+        log.innerText = 'Texte provenant de JS';
+
+        fetch(api)
+            .then(res => res.json()) // retourne une promesse
+            .then(todos => {
+                log.innerText += ' ' + todos[0].title;
+            })
+    })
+})()
+
+
+</script>

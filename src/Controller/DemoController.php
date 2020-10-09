@@ -42,6 +42,15 @@ class DemoController extends ControllerBase
 
 
         return [
+            '#theme' => 'container',
+            '#attributes' => ['class' => ['test', 'toto']],
+            '#children' => [
+                '#markup' => $salutation
+            ],
+            '#attached' => ['library' => ['demo/super-lib', 'de']]
+        ];
+
+        return [
             '#theme' => 'demo_theme_hook',
             '#variable1' => 'Texte provenant du controleur',
             '#students' => $students
@@ -139,6 +148,9 @@ class DemoController extends ControllerBase
         return $build;
     }
 
+    /*
+    * Partie Node CRUD
+    */
     public function testNode()
     {
         $nids = $this->queryNode();
@@ -153,7 +165,11 @@ class DemoController extends ControllerBase
         //$this->updateNode();
 
         // exemple de suppression d'un article
-        $this->deleteNode();
+        //$this->deleteNode();
+
+        // le retour de renderNode est un render array
+        // traité par le moteur de rendu Drupal
+        return $this->renderNode();
         
 
         $arrNids = [];
@@ -165,6 +181,15 @@ class DemoController extends ControllerBase
         return new Response($this->readNode($arrNids[0]));
     }
 
+    private function renderNode()
+    {
+        $em = \Drupal::entityManager();
+        $node = $em->getStorage('node')->load(11);
+        $builder = $em->getViewBuilder('node');
+        $build = $builder->view($node); // il existe ->viewMultiple($nodes)
+        
+        return $build;
+    }
 
     private function deleteNode()
     {

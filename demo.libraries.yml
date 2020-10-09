@@ -1,0 +1,13 @@
+demo-clock:
+    version: 1.x
+    js:
+        js/demo_clock.js: {}
+    dependencies:
+        - core/jquery
+        - core/drupal # bibliothèque JS Drupal générale
+
+super-lib:
+    version: 1.x
+    css:
+        theme:
+            css/demo-styles.css: {}
